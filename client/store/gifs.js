@@ -72,8 +72,7 @@ export const sortBySize = (data, width, height, type) => {
       let sizeData = data.filter(
         datum =>
           +datum.images.original.height < height &&
-          +datum.images.original.height > height - 200 &&
-          +datum.images.original.width < width
+          +datum.images.original.height > height - 200
       );
       dispatch(sortSizes(sizeData));
     }

@@ -607,7 +607,7 @@ var sortBySize = exports.sortBySize = function sortBySize(data, width, height, t
       dispatch(sortSizes(data));
     } else {
       var sizeData = data.filter(function (datum) {
-        return +datum.images.original.height < height && +datum.images.original.height > height - 200 && +datum.images.original.width < width;
+        return +datum.images.original.height < height && +datum.images.original.height > height - 200;
       });
       dispatch(sortSizes(sizeData));
     }
