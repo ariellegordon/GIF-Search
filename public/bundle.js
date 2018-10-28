@@ -138,6 +138,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -171,8 +173,9 @@ var Main = function (_Component) {
     };
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.sortByDate = _this.sortByDate.bind(_this);
+    _this.sortNewest = _this.sortNewest.bind(_this);
     _this.safeSearch = _this.safeSearch.bind(_this);
+    _this.handleRadioClick = _this.handleRadioClick.bind(_this);
     return _this;
   }
 
@@ -188,38 +191,67 @@ var Main = function (_Component) {
       this.props.fetchSearchResults(this.state.search);
     }
   }, {
-    key: 'sortByDate',
-    value: function sortByDate() {
+    key: 'sortNewest',
+    value: function sortNewest() {
       this.props.sortByDate(this.props.gifs);
     }
   }, {
     key: 'safeSearch',
     value: function safeSearch() {
-      this.props.sorted ? this.props.safeSearch(this.props.sortedGifs) : this.props.safeSearch(this.props.gifs);
+      this.props.safeSearch(this.props.gifs);
+    }
+  }, {
+    key: 'handleRadioClick',
+    value: function handleRadioClick(evt) {
+      if (evt.target.value === 'all') {
+        this.props.sortBySize(this.props.gifs, null, null, 'all');
+      } else {
+        var _evt$target$value$spl = evt.target.value.split('x'),
+            _evt$target$value$spl2 = _slicedToArray(_evt$target$value$spl, 2),
+            width = _evt$target$value$spl2[0],
+            height = _evt$target$value$spl2[1];
+
+        this.props.sortBySize(this.props.gifs, +width, +height);
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      console.log(this.props);
       return _react2.default.createElement(
         _react.Fragment,
         null,
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement(
-            'h1',
-            null,
-            'SEARCH FOR GIFS'
-          ),
+          {
+            className: 'input-group mb-3',
+            style: { display: 'flex', justifyContent: 'center' }
+          },
           _react2.default.createElement(
             'form',
             { onSubmit: this.handleSubmit },
             _react2.default.createElement('input', {
+              type: 'text',
+              className: 'form-control',
+              placeholder: 'Search for GIFs',
+              'aria-label': 'Search for GIFs',
+              'aria-describedby': 'basic-addon2',
+              onChange: this.handleChange,
               name: 'search',
-              value: this.state.search,
-              onChange: this.handleChange
+              value: this.state.search
             })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'input-group-append' },
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'btn btn-outline-secondary',
+                type: 'button',
+                onClick: this.handleSubmit
+              },
+              'Search'
+            )
           )
         ),
         _react2.default.createElement(
@@ -229,30 +261,164 @@ var Main = function (_Component) {
             'div',
             null,
             _react2.default.createElement(
-              'p',
+              'div',
+              { style: { textAlign: 'center' } },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Sort By:'
+              ),
+              _react2.default.createElement(
+                'div',
+                {
+                  style: { display: 'flex', justifyContent: 'space-around' }
+                },
+                _react2.default.createElement(
+                  'button',
+                  {
+                    type: 'button',
+                    className: 'btn btn-secondary',
+                    onClick: this.sortNewest
+                  },
+                  'Newest'
+                ),
+                _react2.default.createElement(
+                  'button',
+                  {
+                    onClick: this.safeSearch,
+                    type: 'button',
+                    className: 'btn btn-secondary'
+                  },
+                  'Safe For Work'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'div',
               null,
-              'Sort By:'
-            ),
-            _react2.default.createElement(
-              'button',
-              { onClick: this.sortByDate },
-              'Date Uploaded'
-            ),
-            _react2.default.createElement(
-              'button',
-              { onClick: this.safeSearch },
-              'Safe For Work'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'Filter By Size:'
+              _react2.default.createElement(
+                'div',
+                { style: { textAlign: 'center' } },
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  'Filter By Size:'
+                )
+              ),
+              _react2.default.createElement(
+                'form',
+                {
+                  style: { display: 'flex', justifyContent: 'space-around' }
+                },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'form-check form-check-inline' },
+                  _react2.default.createElement(
+                    'label',
+                    {
+                      className: 'form-check-label',
+                      htmlFor: 'inlineCheckbox1'
+                    },
+                    'Small'
+                  ),
+                  _react2.default.createElement('input', {
+                    className: 'form-check-input',
+                    type: 'radio',
+                    value: '400x300',
+                    name: 'size-select',
+                    onClick: this.handleRadioClick
+                  })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'form-check form-check-inline' },
+                  _react2.default.createElement(
+                    'label',
+                    {
+                      className: 'form-check-label',
+                      htmlFor: 'inlineCheckbox2'
+                    },
+                    'Medium'
+                  ),
+                  _react2.default.createElement('input', {
+                    className: 'form-check-input',
+                    type: 'radio',
+                    name: 'size-select',
+                    value: '640x480',
+                    onClick: this.handleRadioClick
+                  })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'form-check form-check-inline' },
+                  _react2.default.createElement(
+                    'label',
+                    {
+                      className: 'form-check-label',
+                      htmlFor: 'inlineCheckbox3'
+                    },
+                    'Large'
+                  ),
+                  _react2.default.createElement('input', {
+                    className: 'form-check-input',
+                    type: 'radio',
+                    value: '800x600',
+                    name: 'size-select',
+                    onClick: this.handleRadioClick
+                  })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { style: { position: 'relative' } },
+                  _react2.default.createElement(
+                    'label',
+                    {
+                      className: 'form-check-label',
+                      htmlFor: 'inlineCheckbox4'
+                    },
+                    'XL'
+                  ),
+                  _react2.default.createElement('input', {
+                    className: 'form-check-input',
+                    type: 'radio',
+                    name: 'size-select',
+                    value: '1024x768',
+                    onClick: this.handleRadioClick,
+                    style: { position: 'absolute', left: '40px' }
+                  })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'form-check form-check-inline' },
+                  _react2.default.createElement(
+                    'label',
+                    {
+                      className: 'form-check-label',
+                      htmlFor: 'inlineCheckbox5'
+                    },
+                    'All'
+                  ),
+                  _react2.default.createElement('input', {
+                    className: 'form-check-input',
+                    type: 'radio',
+                    value: 'all',
+                    name: 'size-select',
+                    onClick: this.handleRadioClick
+                  })
+                )
+              )
             )
           )
         ),
         _react2.default.createElement(
           'div',
-          null,
+          {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-around',
+              flexWrap: 'wrap'
+            }
+          },
           !this.props.sorted ? this.props.gifs && this.props.gifs.map(function (gif) {
             return _react2.default.createElement('iframe', { src: gif.embed_url, key: gif.id });
           }) : this.props.sortedGifs.map(function (gif) {
@@ -269,7 +435,7 @@ var Main = function (_Component) {
 var mapState = function mapState(state) {
   return {
     gifs: state.gifs.gifs.data,
-    sortedGifs: state.gifs.gifs,
+    sortedGifs: state.gifs.sortGifs,
     loading: state.gifs.loading,
     sorted: state.gifs.sorted
   };
@@ -285,6 +451,9 @@ var mapDispatch = function mapDispatch(dispatch) {
     },
     safeSearch: function safeSearch(data) {
       return dispatch((0, _gifs.safeSearch)(data));
+    },
+    sortBySize: function sortBySize(data, width, height, type) {
+      return dispatch((0, _gifs.sortBySize)(data, width, height, type));
     }
   };
 };
@@ -306,7 +475,7 @@ exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(Main);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.safeSearch = exports.sortByDate = exports.fetchSearchResults = undefined;
+exports.sortBySize = exports.safeSearch = exports.sortByDate = exports.fetchSearchResults = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -321,6 +490,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var FETCH_SEARCH_RESULTS = 'FETCH_SEARCH_RESULTS';
 var SORT_DATA = 'SORT_DATA';
 var SAFE_SEARCH_DATA = 'SAFE_SEARCH_DATA';
+var SIZE_DATA = 'SIZE_DATA';
 
 var initialFetch = function initialFetch(gifs) {
   return {
@@ -339,6 +509,13 @@ var sortData = function sortData(gifs) {
 var safeSearchData = function safeSearchData(gifs) {
   return {
     type: SAFE_SEARCH_DATA,
+    gifs: gifs
+  };
+};
+
+var sortSizes = function sortSizes(gifs) {
+  return {
+    type: SIZE_DATA,
     gifs: gifs
   };
 };
@@ -424,9 +601,23 @@ var safeSearch = exports.safeSearch = function safeSearch(data) {
   };
 };
 
+var sortBySize = exports.sortBySize = function sortBySize(data, width, height, type) {
+  return function (dispatch) {
+    if (type === 'all') {
+      dispatch(sortSizes(data));
+    } else {
+      var sizeData = data.filter(function (datum) {
+        return +datum.images.original.height < height && +datum.images.original.height > height - 200 && +datum.images.original.width < width;
+      });
+      dispatch(sortSizes(sizeData));
+    }
+  };
+};
+
 var initialState = {
   gifs: [],
-  sorted: false
+  sorted: false,
+  sortGifs: []
 };
 
 exports.default = function () {
@@ -442,13 +633,20 @@ exports.default = function () {
       });
     case SORT_DATA:
       return _extends({}, state, {
-        gifs: action.gifs,
+        sortGifs: action.gifs,
         sorted: true
       });
     case SAFE_SEARCH_DATA:
       {
         return _extends({}, state, {
-          gifs: action.gifs,
+          sortGifs: action.gifs,
+          sorted: true
+        });
+      }
+    case SIZE_DATA:
+      {
+        return _extends({}, state, {
+          sortGifs: action.gifs,
           sorted: true
         });
       }

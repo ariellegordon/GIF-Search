@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { fetchSearchResults, sortByDate, safeSearch } from './store/gifs';
+import {
+  fetchSearchResults,
+  sortByDate,
+  safeSearch,
+  sortBySize
+} from './store/gifs';
 
 class Main extends Component {
   constructor() {
@@ -10,8 +15,9 @@ class Main extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.sortByDate = this.sortByDate.bind(this);
+    this.sortNewest = this.sortNewest.bind(this);
     this.safeSearch = this.safeSearch.bind(this);
+    this.handleRadioClick = this.handleRadioClick.bind(this);
   }
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -22,40 +28,174 @@ class Main extends Component {
     this.props.fetchSearchResults(this.state.search);
   }
 
-  sortByDate() {
+  sortNewest() {
     this.props.sortByDate(this.props.gifs);
   }
+
   safeSearch() {
-    this.props.sorted
-      ? this.props.safeSearch(this.props.sortedGifs)
-      : this.props.safeSearch(this.props.gifs);
+    this.props.safeSearch(this.props.gifs);
+  }
+
+  handleRadioClick(evt) {
+    if (evt.target.value === 'all') {
+      this.props.sortBySize(this.props.gifs, null, null, 'all');
+    } else {
+      let [width, height] = evt.target.value.split('x');
+
+      this.props.sortBySize(this.props.gifs, +width, +height);
+    }
   }
 
   render() {
-    console.log(this.props);
     return (
       <Fragment>
-        <div>
-          <h1>SEARCH FOR GIFS</h1>
+        <div
+          className="input-group mb-3"
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
           <form onSubmit={this.handleSubmit}>
             <input
+              type="text"
+              className="form-control"
+              placeholder="Search for GIFs"
+              aria-label="Search for GIFs"
+              aria-describedby="basic-addon2"
+              onChange={this.handleChange}
               name="search"
               value={this.state.search}
-              onChange={this.handleChange}
             />
           </form>
+          <div className="input-group-append">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={this.handleSubmit}
+            >
+              Search
+            </button>
+          </div>
         </div>
+
         <div>
           {this.props.loading === false && (
             <div>
-              <p>Sort By:</p>
-              <button onClick={this.sortByDate}>Date Uploaded</button>
-              <button onClick={this.safeSearch}>Safe For Work</button>
-              <p>Filter By Size:</p>
+              <div style={{ textAlign: 'center' }}>
+                <p>Sort By:</p>
+
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                >
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={this.sortNewest}
+                  >
+                    Newest
+                  </button>
+                  <button
+                    onClick={this.safeSearch}
+                    type="button"
+                    className="btn btn-secondary"
+                  >
+                    Safe For Work
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div style={{ textAlign: 'center' }}>
+                  <p>Filter By Size:</p>
+                </div>
+                <form
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                >
+                  <div className="form-check form-check-inline">
+                    <label
+                      className="form-check-label"
+                      htmlFor="inlineCheckbox1"
+                    >
+                      Small
+                    </label>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value="400x300"
+                      name="size-select"
+                      onClick={this.handleRadioClick}
+                    />
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <label
+                      className="form-check-label"
+                      htmlFor="inlineCheckbox2"
+                    >
+                      Medium
+                    </label>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="size-select"
+                      value="640x480"
+                      onClick={this.handleRadioClick}
+                    />
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <label
+                      className="form-check-label"
+                      htmlFor="inlineCheckbox3"
+                    >
+                      Large
+                    </label>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value="800x600"
+                      name="size-select"
+                      onClick={this.handleRadioClick}
+                    />
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <label
+                      className="form-check-label"
+                      htmlFor="inlineCheckbox4"
+                    >
+                      XL
+                    </label>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="size-select"
+                      value="1024x768"
+                      onClick={this.handleRadioClick}
+                      style={{ position: 'absolute', left: '40px' }}
+                    />
+                  </div>
+                  <div className="form-check form-check-inline">
+                    <label
+                      className="form-check-label"
+                      htmlFor="inlineCheckbox5"
+                    >
+                      All
+                    </label>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value="all"
+                      name="size-select"
+                      onClick={this.handleRadioClick}
+                    />
+                  </div>
+                </form>
+              </div>
             </div>
           )}
         </div>
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            flexWrap: 'wrap'
+          }}
+        >
           {!this.props.sorted
             ? this.props.gifs &&
               this.props.gifs.map(gif => (
@@ -73,7 +213,7 @@ class Main extends Component {
 const mapState = state => {
   return {
     gifs: state.gifs.gifs.data,
-    sortedGifs: state.gifs.gifs,
+    sortedGifs: state.gifs.sortGifs,
     loading: state.gifs.loading,
     sorted: state.gifs.sorted
   };
@@ -83,7 +223,9 @@ const mapDispatch = dispatch => {
   return {
     fetchSearchResults: searchTerm => dispatch(fetchSearchResults(searchTerm)),
     sortByDate: data => dispatch(sortByDate(data)),
-    safeSearch: data => dispatch(safeSearch(data))
+    safeSearch: data => dispatch(safeSearch(data)),
+    sortBySize: (data, width, height, type) =>
+      dispatch(sortBySize(data, width, height, type))
   };
 };
 
