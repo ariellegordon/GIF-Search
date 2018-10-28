@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
-const { API_KEY } = require('../../secrets');
+let API_KEY = '9AJ46K9IWHWo9UeBLVrD6HGV7sXyNxfP';
 module.exports = router;
 
 router.get('/:search', async (req, res, next) => {
