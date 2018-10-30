@@ -86,6 +86,445 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./client/components/FilterForm.js":
+/*!*****************************************!*\
+  !*** ./client/components/FilterForm.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _gifs = __webpack_require__(/*! ../store/gifs */ "./client/store/gifs.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FilterForm = function (_Component) {
+  _inherits(FilterForm, _Component);
+
+  function FilterForm() {
+    _classCallCheck(this, FilterForm);
+
+    var _this = _possibleConstructorReturn(this, (FilterForm.__proto__ || Object.getPrototypeOf(FilterForm)).call(this));
+
+    _this.sortNewest = _this.sortNewest.bind(_this);
+    _this.safeSearch = _this.safeSearch.bind(_this);
+    _this.handleRadioClick = _this.handleRadioClick.bind(_this);
+    return _this;
+  }
+
+  _createClass(FilterForm, [{
+    key: 'sortNewest',
+    value: function sortNewest() {
+      console.log('clicked');
+      this.props.sortByDate(this.props.gifs);
+    }
+  }, {
+    key: 'safeSearch',
+    value: function safeSearch() {
+      this.props.safeSearch(this.props.gifs);
+    }
+  }, {
+    key: 'handleRadioClick',
+    value: function handleRadioClick(evt) {
+      if (evt.target.value === 'all') {
+        this.props.sortBySize(this.props.gifs, null, null, 'all');
+      } else {
+        var _evt$target$value$spl = evt.target.value.split('x'),
+            _evt$target$value$spl2 = _slicedToArray(_evt$target$value$spl, 2),
+            width = _evt$target$value$spl2[0],
+            height = _evt$target$value$spl2[1];
+
+        this.props.sortBySize(this.props.gifs, +width, +height);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.props.loading === false && _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'div',
+            { style: { textAlign: 'center' } },
+            _react2.default.createElement(
+              'p',
+              null,
+              'Sort By:'
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { display: 'flex', justifyContent: 'space-around' } },
+              _react2.default.createElement(
+                'button',
+                {
+                  type: 'button',
+                  className: 'btn btn-secondary',
+                  onClick: this.sortNewest
+                },
+                'Newest'
+              ),
+              _react2.default.createElement(
+                'button',
+                {
+                  onClick: this.safeSearch,
+                  type: 'button',
+                  className: 'btn btn-secondary'
+                },
+                'Safe For Work'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'div',
+              { style: { textAlign: 'center' } },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Filter By Size:'
+              )
+            ),
+            _react2.default.createElement(
+              'form',
+              { style: { display: 'flex', justifyContent: 'space-around' } },
+              _react2.default.createElement(
+                'div',
+                { className: 'form-check form-check-inline' },
+                _react2.default.createElement(
+                  'label',
+                  { className: 'form-check-label', htmlFor: 'inlineCheckbox1' },
+                  'Small'
+                ),
+                _react2.default.createElement('input', {
+                  className: 'form-check-input',
+                  type: 'radio',
+                  value: '400x300',
+                  name: 'size-select',
+                  onClick: this.handleRadioClick
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-check form-check-inline' },
+                _react2.default.createElement(
+                  'label',
+                  { className: 'form-check-label', htmlFor: 'inlineCheckbox2' },
+                  'Medium'
+                ),
+                _react2.default.createElement('input', {
+                  className: 'form-check-input',
+                  type: 'radio',
+                  name: 'size-select',
+                  value: '640x480',
+                  onClick: this.handleRadioClick
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-check form-check-inline' },
+                _react2.default.createElement(
+                  'label',
+                  { className: 'form-check-label', htmlFor: 'inlineCheckbox3' },
+                  'Large'
+                ),
+                _react2.default.createElement('input', {
+                  className: 'form-check-input',
+                  type: 'radio',
+                  value: '800x600',
+                  name: 'size-select',
+                  onClick: this.handleRadioClick
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { style: { position: 'relative' } },
+                _react2.default.createElement(
+                  'label',
+                  { className: 'form-check-label', htmlFor: 'inlineCheckbox4' },
+                  'XL'
+                ),
+                _react2.default.createElement('input', {
+                  className: 'form-check-input',
+                  type: 'radio',
+                  name: 'size-select',
+                  value: '1024x768',
+                  onClick: this.handleRadioClick,
+                  style: { position: 'absolute', left: '40px' }
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'form-check form-check-inline' },
+                _react2.default.createElement(
+                  'label',
+                  { className: 'form-check-label', htmlFor: 'inlineCheckbox5' },
+                  'All'
+                ),
+                _react2.default.createElement('input', {
+                  className: 'form-check-input',
+                  type: 'radio',
+                  value: 'all',
+                  name: 'size-select',
+                  onClick: this.handleRadioClick
+                })
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return FilterForm;
+}(_react.Component);
+
+var mapState = function mapState(state) {
+  return {
+    gifs: state.gifs.gifs.data,
+    loading: state.gifs.loading,
+    sorted: state.gifs.sorted
+  };
+};
+
+var mapDispatch = function mapDispatch(dispatch) {
+  return {
+    sortByDate: function sortByDate(data) {
+      return dispatch((0, _gifs.sortByDate)(data));
+    },
+    safeSearch: function safeSearch(data) {
+      return dispatch((0, _gifs.safeSearch)(data));
+    },
+    sortBySize: function sortBySize(data, width, height, type) {
+      return dispatch((0, _gifs.sortBySize)(data, width, height, type));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(FilterForm);
+
+/***/ }),
+
+/***/ "./client/components/GifList.js":
+/*!**************************************!*\
+  !*** ./client/components/GifList.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GifList = function (_Component) {
+  _inherits(GifList, _Component);
+
+  function GifList() {
+    _classCallCheck(this, GifList);
+
+    return _possibleConstructorReturn(this, (GifList.__proto__ || Object.getPrototypeOf(GifList)).apply(this, arguments));
+  }
+
+  _createClass(GifList, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        {
+          style: {
+            display: 'flex',
+            justifyContent: 'space-around',
+            flexWrap: 'wrap'
+          }
+        },
+        !this.props.sorted ? this.props.gifs && this.props.gifs.map(function (gif) {
+          return _react2.default.createElement('iframe', { src: gif.embed_url, key: gif.id });
+        }) : this.props.sortedGifs.map(function (gif) {
+          return _react2.default.createElement('iframe', { src: gif.embed_url, key: gif.id });
+        })
+      );
+    }
+  }]);
+
+  return GifList;
+}(_react.Component);
+
+var mapState = function mapState(state) {
+  return {
+    gifs: state.gifs.gifs.data,
+    sortedGifs: state.gifs.sortGifs,
+    loading: state.gifs.loading,
+    sorted: state.gifs.sorted
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapState)(GifList);
+
+/***/ }),
+
+/***/ "./client/components/SearchForm.js":
+/*!*****************************************!*\
+  !*** ./client/components/SearchForm.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SearchForm = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _gifs = __webpack_require__(/*! ../store/gifs */ "./client/store/gifs.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchForm = exports.SearchForm = function (_Component) {
+  _inherits(SearchForm, _Component);
+
+  function SearchForm() {
+    _classCallCheck(this, SearchForm);
+
+    var _this = _possibleConstructorReturn(this, (SearchForm.__proto__ || Object.getPrototypeOf(SearchForm)).call(this));
+
+    _this.state = {
+      search: ''
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(SearchForm, [{
+    key: 'handleChange',
+    value: function handleChange(evt) {
+      this.setState(_defineProperty({}, evt.target.name, evt.target.value));
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(evt) {
+      evt.preventDefault();
+      this.props.fetchSearchResults(this.state.search);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'input-group mb-3',
+          style: { display: 'flex', justifyContent: 'center' },
+          id: 'submit-form'
+        },
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement('input', {
+            type: 'text',
+            className: 'form-control',
+            placeholder: 'Search for GIFs',
+            'aria-label': 'Search for GIFs',
+            'aria-describedby': 'basic-addon2',
+            onChange: this.handleChange,
+            name: 'search',
+            value: this.state.search
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'input-group-append' },
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'btn btn-outline-secondary',
+              type: 'button',
+              onClick: this.handleSubmit
+            },
+            'Search'
+          )
+        )
+      );
+    }
+  }]);
+
+  return SearchForm;
+}(_react.Component);
+
+var mapDispatch = function mapDispatch(dispatch) {
+  return {
+    fetchSearchResults: function fetchSearchResults(searchTerm) {
+      return dispatch((0, _gifs.fetchSearchResults)(searchTerm));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatch)(SearchForm);
+
+/***/ }),
+
 /***/ "./client/index.js":
 /*!*************************!*\
   !*** ./client/index.js ***!
@@ -137,330 +576,36 @@ _reactDom2.default.render(_react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Main = undefined;
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var _SearchForm = __webpack_require__(/*! ./components/SearchForm */ "./client/components/SearchForm.js");
 
-var _gifs = __webpack_require__(/*! ./store/gifs */ "./client/store/gifs.js");
+var _SearchForm2 = _interopRequireDefault(_SearchForm);
+
+var _FilterForm = __webpack_require__(/*! ./components/FilterForm */ "./client/components/FilterForm.js");
+
+var _FilterForm2 = _interopRequireDefault(_FilterForm);
+
+var _GifList = __webpack_require__(/*! ./components/GifList */ "./client/components/GifList.js");
+
+var _GifList2 = _interopRequireDefault(_GifList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Main = exports.Main = function (_Component) {
-  _inherits(Main, _Component);
-
-  function Main() {
-    _classCallCheck(this, Main);
-
-    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
-
-    _this.state = {
-      search: ''
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.sortNewest = _this.sortNewest.bind(_this);
-    _this.safeSearch = _this.safeSearch.bind(_this);
-    _this.handleRadioClick = _this.handleRadioClick.bind(_this);
-    return _this;
-  }
-
-  _createClass(Main, [{
-    key: 'handleChange',
-    value: function handleChange(evt) {
-      this.setState(_defineProperty({}, evt.target.name, evt.target.value));
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(evt) {
-      evt.preventDefault();
-      this.props.fetchSearchResults(this.state.search);
-    }
-  }, {
-    key: 'sortNewest',
-    value: function sortNewest() {
-      this.props.sortByDate(this.props.gifs);
-    }
-  }, {
-    key: 'safeSearch',
-    value: function safeSearch() {
-      this.props.safeSearch(this.props.gifs);
-    }
-  }, {
-    key: 'handleRadioClick',
-    value: function handleRadioClick(evt) {
-      if (evt.target.value === 'all') {
-        this.props.sortBySize(this.props.gifs, null, null, 'all');
-      } else {
-        var _evt$target$value$spl = evt.target.value.split('x'),
-            _evt$target$value$spl2 = _slicedToArray(_evt$target$value$spl, 2),
-            width = _evt$target$value$spl2[0],
-            height = _evt$target$value$spl2[1];
-
-        this.props.sortBySize(this.props.gifs, +width, +height);
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        _react.Fragment,
-        null,
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'input-group mb-3',
-            style: { display: 'flex', justifyContent: 'center' },
-            id: 'submit-form'
-          },
-          _react2.default.createElement(
-            'form',
-            { onSubmit: this.handleSubmit },
-            _react2.default.createElement('input', {
-              type: 'text',
-              className: 'form-control',
-              placeholder: 'Search for GIFs',
-              'aria-label': 'Search for GIFs',
-              'aria-describedby': 'basic-addon2',
-              onChange: this.handleChange,
-              name: 'search',
-              value: this.state.search
-            })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'input-group-append' },
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'btn btn-outline-secondary',
-                type: 'button',
-                onClick: this.handleSubmit
-              },
-              'Search'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          this.props.loading === false && _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              'div',
-              { style: { textAlign: 'center' } },
-              _react2.default.createElement(
-                'p',
-                null,
-                'Sort By:'
-              ),
-              _react2.default.createElement(
-                'div',
-                {
-                  style: { display: 'flex', justifyContent: 'space-around' }
-                },
-                _react2.default.createElement(
-                  'button',
-                  {
-                    type: 'button',
-                    className: 'btn btn-secondary',
-                    onClick: this.sortNewest
-                  },
-                  'Newest'
-                ),
-                _react2.default.createElement(
-                  'button',
-                  {
-                    onClick: this.safeSearch,
-                    type: 'button',
-                    className: 'btn btn-secondary'
-                  },
-                  'Safe For Work'
-                )
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              null,
-              _react2.default.createElement(
-                'div',
-                { style: { textAlign: 'center' } },
-                _react2.default.createElement(
-                  'p',
-                  null,
-                  'Filter By Size:'
-                )
-              ),
-              _react2.default.createElement(
-                'form',
-                {
-                  style: { display: 'flex', justifyContent: 'space-around' }
-                },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'form-check form-check-inline' },
-                  _react2.default.createElement(
-                    'label',
-                    {
-                      className: 'form-check-label',
-                      htmlFor: 'inlineCheckbox1'
-                    },
-                    'Small'
-                  ),
-                  _react2.default.createElement('input', {
-                    className: 'form-check-input',
-                    type: 'radio',
-                    value: '400x300',
-                    name: 'size-select',
-                    onClick: this.handleRadioClick
-                  })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'form-check form-check-inline' },
-                  _react2.default.createElement(
-                    'label',
-                    {
-                      className: 'form-check-label',
-                      htmlFor: 'inlineCheckbox2'
-                    },
-                    'Medium'
-                  ),
-                  _react2.default.createElement('input', {
-                    className: 'form-check-input',
-                    type: 'radio',
-                    name: 'size-select',
-                    value: '640x480',
-                    onClick: this.handleRadioClick
-                  })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'form-check form-check-inline' },
-                  _react2.default.createElement(
-                    'label',
-                    {
-                      className: 'form-check-label',
-                      htmlFor: 'inlineCheckbox3'
-                    },
-                    'Large'
-                  ),
-                  _react2.default.createElement('input', {
-                    className: 'form-check-input',
-                    type: 'radio',
-                    value: '800x600',
-                    name: 'size-select',
-                    onClick: this.handleRadioClick
-                  })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { style: { position: 'relative' } },
-                  _react2.default.createElement(
-                    'label',
-                    {
-                      className: 'form-check-label',
-                      htmlFor: 'inlineCheckbox4'
-                    },
-                    'XL'
-                  ),
-                  _react2.default.createElement('input', {
-                    className: 'form-check-input',
-                    type: 'radio',
-                    name: 'size-select',
-                    value: '1024x768',
-                    onClick: this.handleRadioClick,
-                    style: { position: 'absolute', left: '40px' }
-                  })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'form-check form-check-inline' },
-                  _react2.default.createElement(
-                    'label',
-                    {
-                      className: 'form-check-label',
-                      htmlFor: 'inlineCheckbox5'
-                    },
-                    'All'
-                  ),
-                  _react2.default.createElement('input', {
-                    className: 'form-check-input',
-                    type: 'radio',
-                    value: 'all',
-                    name: 'size-select',
-                    onClick: this.handleRadioClick
-                  })
-                )
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            style: {
-              display: 'flex',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap'
-            }
-          },
-          !this.props.sorted ? this.props.gifs && this.props.gifs.map(function (gif) {
-            return _react2.default.createElement('iframe', { src: gif.embed_url, key: gif.id });
-          }) : this.props.sortedGifs.map(function (gif) {
-            return _react2.default.createElement('iframe', { src: gif.embed_url, key: gif.id });
-          })
-        )
-      );
-    }
-  }]);
-
-  return Main;
-}(_react.Component);
-
-var mapState = function mapState(state) {
-  return {
-    gifs: state.gifs.gifs.data,
-    sortedGifs: state.gifs.sortGifs,
-    loading: state.gifs.loading,
-    sorted: state.gifs.sorted
-  };
+var Main = function Main() {
+  return _react2.default.createElement(
+    _react.Fragment,
+    null,
+    _react2.default.createElement(_SearchForm2.default, null),
+    _react2.default.createElement(_FilterForm2.default, null),
+    _react2.default.createElement(_GifList2.default, null)
+  );
 };
 
-var mapDispatch = function mapDispatch(dispatch) {
-  return {
-    fetchSearchResults: function fetchSearchResults(searchTerm) {
-      return dispatch((0, _gifs.fetchSearchResults)(searchTerm));
-    },
-    sortByDate: function sortByDate(data) {
-      return dispatch((0, _gifs.sortByDate)(data));
-    },
-    safeSearch: function safeSearch(data) {
-      return dispatch((0, _gifs.safeSearch)(data));
-    },
-    sortBySize: function sortBySize(data, width, height, type) {
-      return dispatch((0, _gifs.sortBySize)(data, width, height, type));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(Main);
+exports.default = Main;
 
 /***/ }),
 
