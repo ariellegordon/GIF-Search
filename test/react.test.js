@@ -16,6 +16,9 @@ describe('REACT TESTS', () => {
     beforeEach('Create component', () => {
       main = shallow(<Main />);
     });
+    it('renders', () => {
+      expect(main.find('div#submit-form')).to.have.lengthOf(1);
+    });
     it('has a `search` field on state', () => {
       expect(main.state()).to.be.an('object');
       expect(main.state().search).to.exist;
