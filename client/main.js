@@ -7,7 +7,7 @@ import {
   sortBySize
 } from './store/gifs';
 
-class Main extends Component {
+export class Main extends Component {
   constructor() {
     super();
     this.state = {
@@ -52,6 +52,7 @@ class Main extends Component {
         <div
           className="input-group mb-3"
           style={{ display: 'flex', justifyContent: 'center' }}
+          id="submit-form"
         >
           <form onSubmit={this.handleSubmit}>
             <input

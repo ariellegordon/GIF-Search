@@ -4,7 +4,7 @@
   "description": "Dev test for American Express",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test --compilers js:babel-register",
+    "test": "mocha test --compilers js:babel-core/register --require babel-polyfill",
     "start": "webpack -w & nodemon server"
   },
   "author": "ariellegordon",
@@ -15,6 +15,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.26.0",
@@ -24,6 +25,7 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "mocha": "^5.2.0",
+    "nock": "^10.0.1",
     "nodemon": "^1.18.4",
     "supertest": "^3.3.0",
     "webpack": "^4.20.2",
